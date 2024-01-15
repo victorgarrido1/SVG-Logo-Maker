@@ -3,11 +3,14 @@ const inquirer = require("inquirer");
 
 //file system module import statement 
 const fs = require("fs");
+const { writeFile } = require("fs/promises")
 
 //import classes from the shapes directory
 const { Triangle, Circle, Square } = require("./lib/shapes");
+//imputing the text class
+const { Text } = require("./lib/text");
 
-function writeToFile(fileName, answers) {
+ {
 
     //files as a empty string
 let svgString = "";
@@ -42,15 +45,57 @@ function promptUser() {
             name: "shape",
         },
         {
-            type:"list",
+            type:"input",
             message: "What colors would you like your logo to have?",
             name: "colors",
         },
     ])
 
     .then(( { text, textColor, shape, colors }) => {
+        let selectedShape;
+
+        switch (shape) {
+            case "Triangle":
+                selectedShape = new Triangle();
+                break;
+
+                case "Square":
+                    selectedShape = new Square();
+                    break;
+
+            case "Circle":
+                selectedShape = new Circle();
+                break;
+
+                default: 
+                console.log("Invalid shape selected");
+                return;
+        }
+
+       //this is what renders the pictures or svg 
+        selectedShape.setColor(colors);
+        const textCol = new Text ();
+        textCol.setText(text, textColor);
+        const svg = `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+                        <g>
+                            ${selectedShape.render()}
+                            ${textCol.render()}
+                            
+                        </g>
+                    </svg>`
         
+                    ;
+        return writeFile("logo.svg", svg);
     })
-    
+    .catch((error) => {
+        console.error(error);
+    });
 }
+
+
+
+// Call the promptUser function to start the process
+promptUser();
+    
+
 
