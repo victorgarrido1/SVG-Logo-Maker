@@ -7,4 +7,4 @@ It utilizes the command-line to prompt a user a series of easy to follow simple 
 
 Here is a link that shows a video of the program in action: (https://watch.screencastify.com/v/aw9bbzZ6nhJ5dydwhbso)
 
-Thank you for viewing :white_check_mark:;
+Thank you for viewing :white_check_mark:
